@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBA 2023-25</title>
+    <link rel="icon" id="dynamic-favicon" href="">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <!-- Security Cursor Glow -->
+    <div id="security-cursor-glow"></div>
+
+
+    <div class="background-globes">
+        <canvas id="particles-canvas"></canvas>
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+    </div>
+
+    <header class="hero-section">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">MBA TTM 2023-25<span class="highlight"></span></h1>
+                <p class="hero-subtitle">CENTRAL UNIVERSITY OF KERALA</p>
+                <a href="https://instagram.com/m.b.yeah" target="_blank" class="insta-link"><i
+                        class="fab fa-instagram"></i> m.b.yeah</a>
+            </div>
+
+            <div class="hero-preview">
+                <div class="insta-card">
+                    <div class="insta-header">
+                        <div class="insta-avatar"><i class="fas fa-user-graduate"></i></div>
+                        <div class="insta-details">
+                            <div class="insta-handle">m.b.yeah</div>
+                            <div class="insta-role">Dept of Tourism Studies</div>
+                        </div>
+                    </div>
+                    <div class="insta-stats">
+                        <div class="stat"><span class="count" data-target="100">0</span> Posts</div>
+                        <div class="stat"><span class="count" data-target="600">0</span> Followers</div>
+                        <div class="stat"><span class="count" data-target="400">0</span> Following</div>
+                    </div>
+                    <div class="insta-images-mock">
+                        <div class="mock-img"></div>
+                        <div class="mock-img"></div>
+                        <div class="mock-img"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Section Navigation -->
+    <nav class="section-nav-container">
+        <div class="section-nav">
+            <div class="nav-indicator"></div>
+            <button class="nav-tab active" data-target="section-3">Explore</button>
+            <button class="nav-tab" data-target="section-2">Highlights</button>
+            <button class="nav-tab" data-target="timeline">Events</button>
+        </div>
+    </nav>
+
+    <main class="content-container">
+        <!-- Explore Section (Active) -->
+        <div id="section-3" class="content-section active">
+            <div class="placeholder-content">
+                <h2>Explore</h2>
+                <p>More content loading...</p>
+            </div>
+        </div>
+
+        <!-- Main Tunnel Section -->
+        <div id="section-2" class="content-section hidden">
+            <div id="main-tunnel-wrapper">
+                <div id="main-tunnel">
+                    <!-- Media will be injected here -->
+                </div>
+                <div id="secret-tunnel" class="hidden">
+                    <!-- Secret media will be injected here after password -->
+                </div>
+
+                <div id="security-trigger-container" class="hidden">
+                    <canvas id="logo-particles"></canvas>
+                    <div id="password-container" class="hidden">
+                        <span class="password-label">INPUT PASSWORD</span>
+                        <div class="glass-input-wrapper">
+                            <input type="password" id="security-password" placeholder="******" autocomplete="off">
+                            <button id="security-submit" class="submit-arrow"><i
+                                    class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div id="password-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Section (Timeline) -->
+        <div id="timeline" class="content-section hidden">
+            <!-- Timeline items will be injected here by JS -->
+        </div>
+    </main>
+
+    <!-- Modal Template -->
+    <div id="memory-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div id="modal-media-container" class="media-container">
+                    <button class="nav-btn prev-btn">&#10094;</button>
+                    <div id="gallery-content"></div>
+                    <button class="nav-btn next-btn">&#10095;</button>
+                </div>
+                <div class="modal-info">
+                    <div class="modal-header-row">
+                        <h2 id="modal-title"></h2>
+                        <span id="modal-date" class="date-badge"></span>
+                    </div>
+                    <p id="modal-desc"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
