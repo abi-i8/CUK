@@ -138,15 +138,35 @@
 
     function initGlobes() {
         globeData.length = 0;
-        globes.forEach(globe => {
+        globes.forEach((globe, index) => {
             const size = globe.offsetWidth;
+            // Force Separation: Globe 0 (Top-Left), Globe 1 (Bottom-Right)
+            // Or just ensure they aren't in same quadrant
+            let startX, startY;
+
+            if (index === 0) {
+                // Top-Left Quadrant
+                startX = Math.random() * (window.innerWidth / 2 - size);
+                startY = Math.random() * (window.innerHeight / 2 - size);
+            } else {
+                // Bottom-Right Quadrant
+                startX = (window.innerWidth / 2) + Math.random() * (window.innerWidth / 2 - size);
+                startY = (window.innerHeight / 2) + Math.random() * (window.innerHeight / 2 - size);
+            }
+
+            // Allow overlapping edges slightly for "visual" bounce
+            // Safe fallback if logic creates NaN
+            if (isNaN(startX)) startX = 0;
+            if (isNaN(startY)) startY = 0;
+
             globeData.push({
                 el: globe,
-                x: Math.random() * (window.innerWidth - size),
-                y: Math.random() * (window.innerHeight - size),
+                x: startX,
+                y: startY,
                 vx: (Math.random() * 1.5 + 1) * (Math.random() < 0.5 ? 1 : -1),
                 vy: (Math.random() * 1.5 + 1) * (Math.random() < 0.5 ? 1 : -1),
-                size: size
+                size: size,
+                halfSize: size / 2 // Cache for boundary check
             });
         });
     }
@@ -156,20 +176,29 @@
             g.x += g.vx;
             g.y += g.vy;
 
-            // Boundary checks
-            if (g.x < 0) {
-                g.x = 0;
+            // Updated Boundary Checks: Bounce when CENTER hits the edge
+            // Center X = g.x + g.halfSize
+            // Hit Left: Center < 0 -> g.x < -g.halfSize
+            // Hit Right: Center > Width -> g.x > Width - g.halfSize
+
+            const minX = -g.halfSize;
+            const maxX = window.innerWidth - g.halfSize;
+            const minY = -g.halfSize;
+            const maxY = window.innerHeight - g.halfSize;
+
+            if (g.x < minX) {
+                g.x = minX;
                 g.vx *= -1;
-            } else if (g.x > window.innerWidth - g.size) {
-                g.x = window.innerWidth - g.size;
+            } else if (g.x > maxX) {
+                g.x = maxX;
                 g.vx *= -1;
             }
 
-            if (g.y < 0) {
-                g.y = 0;
+            if (g.y < minY) {
+                g.y = minY;
                 g.vy *= -1;
-            } else if (g.y > window.innerHeight - g.size) {
-                g.y = window.innerHeight - g.size;
+            } else if (g.y > maxY) {
+                g.y = maxY;
                 g.vy *= -1;
             }
 
@@ -1418,17 +1447,23 @@
         const tempCtx = tempCanvas.getContext('2d');
 
         // Responsive logo sizing
-        // Mobile (<=768px): 50% of screen
-        // Tablet (769-1024px): 65% of screen
-        // Desktop (>1024px): 85% of screen
-        let sizeMultiplier;
+        // Mobile (<=768px): Bigger and Denser
+        let sizeMultiplier, startGap, startSize;
+
         if (window.innerWidth <= 768) {
-            sizeMultiplier = 0.45; // Refined for mobile
+            sizeMultiplier = 0.65; // Bigger on mobile (was 0.45)
+            startGap = 6;          // Proportional Ratio (1.25x Diameter)
+            startSize = 2.4;       // 20% Larger than Desktop (2.0)
         } else if (window.innerWidth <= 1024) {
             sizeMultiplier = 0.55;
+            startGap = SECURITY_CONFIG.GAP;
+            startSize = SECURITY_CONFIG.PARTICLE_SIZE;
         } else {
-            sizeMultiplier = 0.65; // Reduced from 0.85 for better balance
+            sizeMultiplier = 0.65;
+            startGap = SECURITY_CONFIG.GAP;
+            startSize = SECURITY_CONFIG.PARTICLE_SIZE;
         }
+
         const shapeSize = Math.floor(Math.min(canvas.width, canvas.height) * sizeMultiplier);
 
         tempCanvas.width = shapeSize;
@@ -1478,8 +1513,8 @@
         const boxW = 400;
         const boxH = 120;
 
-        for (let y = 0; y < shapeSize; y += SECURITY_CONFIG.GAP) {
-            for (let dx = SECURITY_CONFIG.GAP / 2; dx < shapeSize / 2; dx += SECURITY_CONFIG.GAP) {
+        for (let y = 0; y < shapeSize; y += startGap) {
+            for (let dx = startGap / 2; dx < shapeSize / 2; dx += startGap) {
                 const sampleX = Math.floor((shapeSize / 2) - dx);
                 if (sampleX < 0) continue;
 
@@ -1490,6 +1525,10 @@
 
                     const p1 = createGridParticle((canvas.width / 2) - dx, targetY1);
                     const p2 = createGridParticle((canvas.width / 2) + dx, targetY1);
+
+                    // Apply dynamic size
+                    p1.size = startSize;
+                    p2.size = startSize;
 
                     [p1, p2].forEach(p => {
                         const side = Math.random();
@@ -1613,7 +1652,7 @@
 
             if (window.innerWidth <= 768) {
                 targetCenterX = canvas.width * 0.5;
-                targetCenterY = canvas.height * 0.32; // Higher for mobile
+                targetCenterY = canvas.height * 0.33; // Shifted DOWN to 33% (was 25%) to balance vertical space
             } else {
                 targetCenterX = canvas.width * 0.5;
                 targetCenterY = canvas.height * 0.38; // Balanced for desktop

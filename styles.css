@@ -1298,41 +1298,162 @@ body {
     transform: translateY(-5px);
 }
 
-.force-hidden {
-    opacity: 0 !important;
-    pointer-events: none !important;
-    visibility: hidden !important;
-    transition: opacity 0.5s ease-out !important;
+/* =========================================================
+   MOBILE OPTIMIZATION ( < 768px )
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    /* 1. HERO SECTION */
+    .hero-section {
+        min-height: 80dvh;
+        /* Dynamic Height for Mobile Browsers */
+        padding: 5rem 1rem 2rem 1rem;
+        /* More top padding for content */
+    }
+
+    .hero-content {
+        padding: 2.5rem 1.5rem;
+        width: 95%;
+        border-radius: 20px;
+        gap: 2.5rem;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        /* Scaled down from 4.3rem */
+        letter-spacing: -1px;
+        line-height: 1.1;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+        letter-spacing: 2px;
+        padding: 0.8rem 1rem;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        border-width: 1px;
+        /* Thinner borders */
+    }
+
+    .insta-link {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+        /* Larger touch target */
+    }
+
+    /* 2. NAVIGATION */
+    .section-nav-container {
+        top: 10px;
+        /* Closer to top */
+        width: 95%;
+        margin: 1rem auto 0 auto;
+        /* Auto margins for centering */
+        left: 0;
+        right: 0;
+    }
+
+    .section-nav {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0.3rem;
+    }
+
+    .nav-tab {
+        padding: 10px 15px;
+        font-size: 0.8rem;
+        /* Smaller text */
+        flex: 1;
+        /* Distribute space evenly */
+        text-align: center;
+    }
+
+    /* 3. TUNNEL */
+    #main-tunnel-wrapper {
+        height: 100dvh;
+        /* Exact height to dock Nav Bar (80dvh Hero + 100dvh Tunnel - 100dvh Viewport = 80dvh Scroll) */
+    }
+
+    .tunnel-item {
+        max-width: 90vw;
+        /* Wider on mobile */
+        max-height: 60vh;
+        border-width: 2px;
+        /* Thinner border */
+    }
+
+    /* 4. SECURITY / PASSWORD */
+    #password-container {
+        top: 58%;
+        /* Shifted DOWN slightly (was 55%) for vertical balance */
+        width: 70%;
+        /* Made smaller (was 80%) */
+        padding: 1rem;
+
+        /* Ensure Absolute Centering */
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    #security-password {
+        font-size: 16px;
+        /* Prevents auto-zoom on iOS */
+        width: 100%;
+        text-align: center;
+        /* Center text inside input */
+    }
+
+    .glass-input-wrapper {
+        width: 100%;
+        justify-content: center;
+        /* Center children */
+        padding: 5px;
+        /* Symmetric padding (removed 20px left bias) */
+    }
+
+    .password-label {
+        font-size: 0.7rem;
+    }
+
+    /* 5. GENERAL & TOUCH */
+    .back-to-top-btn {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Resize Background Globes for Mobile Proportions */
+    .globe-1 {
+        width: 300px;
+        /* 60% of Desktop (500px) */
+        height: 300px;
+        filter: blur(60px);
+        /* Reduced blur radius */
+    }
+
+    .globe-2 {
+        width: 350px;
+        /* ~60% of Desktop (600px) */
+        height: 350px;
+        filter: blur(60px);
+    }
+
+    /* Disable hover effects on touch to prevent sticky states */
+    .memory-card:hover {
+        transform: none;
+    }
 }
 
-.back-to-top-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 2000;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-    pointer-events: none;
-}
+/* Landscape Mobile Fix */
+@media (max-width: 900px) and (orientation: landscape) {
+    .hero-section {
+        min-height: auto;
+        padding-top: 6rem;
+    }
 
-.back-to-top-btn.visible {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-
-.back-to-top-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-5px);
+    #password-container {
+        top: 50%;
+    }
 }
