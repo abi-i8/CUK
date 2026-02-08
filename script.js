@@ -1877,6 +1877,7 @@
             }
 
             // Step 3: Cleanup and transition to Secret Tunnel
+            // Step 3: Cleanup and transition to Secret Tunnel
             setTimeout(() => {
                 // Switch to Secret Tunnel
                 switchToSecretTunnel();
@@ -1902,7 +1903,7 @@
 
                 // NUKE PARTICLES
                 securityState.particles = [];
-            }, 1000); // 1s delay matches the shatter fade-out in renderLogoFrame
+            }, 200);
         } else {
             if (glassWrapper) {
                 glassWrapper.classList.add('error');
