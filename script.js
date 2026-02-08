@@ -2011,6 +2011,17 @@
             // Force reflow
             void sTunnel.offsetWidth;
             sTunnel.style.opacity = '1';
+
+            // PLAY VIDEOS NOW
+            const videos = sTunnel.querySelectorAll('video');
+            videos.forEach(v => {
+                const playPromise = v.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log('Autoplay prevented:', error);
+                    });
+                }
+            });
         }
 
         // --- ANIMATED ENTRY ---
