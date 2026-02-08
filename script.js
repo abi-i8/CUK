@@ -360,6 +360,8 @@
 
     backToTopBtn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Reset tunnel state to ensure clean state when returning
+        if (typeof resetTunnelState === 'function') resetTunnelState();
     });
     // --------------------------
 
@@ -1243,13 +1245,8 @@
                 return false;
             }
 
-            // Exit Condition: If at start of tunnel and scrolling UP (negative delta)
-            if (currentZ <= 0 && deltaY < 0) {
-                // Allow page to scroll up naturally
-                isInterventionMode = false;
-                forwardScrollDistance = 0;
-                return false;
-            }
+            // Exit Condition: Removed as per request. Once in tunnel, user must use the 'Back to Top' button.
+            // This prevents accidental page scrolling while exploring the tunnel.
 
             // ENGAGE TUNNEL MODE
             // If we are here, we are either at bottom scrolling down, or locked in tunnel.
