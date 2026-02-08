@@ -76,21 +76,14 @@
     <main class="content-container">
         <!-- Explore Section (Active) -->
         <div id="section-3" class="content-section active">
-            <div class="webcam-game-container">
-                <div class="game-overlay" id="game-start-overlay">
-                    <h2>Face Navigation</h2>
-                    <p>Use your head movement to control the cursor.</p>
-                    <button id="start-webcam-game" class="nav-tab active">Enable Camera & Play</button>
-                    <p class="small-note">Camera data is processed locally and never sent to a server.</p>
+            <div class="explore-wrapper">
+                <div class="sphere-container">
+                    <canvas id="memory-sphere-canvas"></canvas>
+                    <div class="sphere-overlay">
+                        <h3>Memory Matrix</h3>
+                        <p>Drag to rotate. Click nodes to explore.</p>
+                    </div>
                 </div>
-
-                <div class="game-ui hidden" id="game-ui-layer">
-                    <div class="score-board">Score: <span id="game-score">0</span></div>
-                    <div class="lives-board">Lives: <span id="game-lives">3</span></div>
-                </div>
-
-                <video id="webcam-feed" autoplay playsinline muted class="hidden"></video>
-                <canvas id="game-canvas"></canvas>
             </div>
         </div>
 
