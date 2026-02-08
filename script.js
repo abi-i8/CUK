@@ -2013,8 +2013,33 @@
             sTunnel.style.opacity = '1';
         }
 
-        // Update tunnel rendering
-        if (window.updateTunnel) window.updateTunnel(0);
+        // --- ANIMATED ENTRY ---
+        // Start "deep" in the tunnel (negative Z is forward, positive is backward in our logic)
+        // Actually, our logic: currentZ decreases to move forward.
+        // So start at a HIGHER Z (e.g., 5000) and move to 0?
+        // Wait, standard view is at 0. Items are at -800, -1600...
+        // To fly IN, we should start at a positive Z (camera behind items) or just animate standard autoScroll.
+
+        // Let's set a starting "fly-in" state
+        currentZ = 5000; // Start far back
+        const targetZ = 0;
+
+        function animateEntry() {
+            // Speed of entry
+            currentZ -= 100; // Fly in speed
+
+            if (currentZ > targetZ) {
+                if (window.updateTunnel) window.updateTunnel(currentZ);
+                requestAnimationFrame(animateEntry);
+            } else {
+                currentZ = targetZ;
+                if (window.updateTunnel) window.updateTunnel(currentZ);
+                // Hand over to normal interaction or auto-scroll
+                // Optional: Start slow auto-scroll after entry
+                // autoScrollZ = -2; 
+            }
+        }
+        requestAnimationFrame(animateEntry);
     }
 
     function resetTunnelState() {
