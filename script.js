@@ -22,6 +22,26 @@
         mouse.y = event.y;
     });
 
+    // Touch Support for Particles
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+        mouse.x = null;
+        mouse.y = null;
+    });
+
     class Particle {
         constructor(x, y) {
             this.x = x != null ? x : Math.random() * canvas.width;
@@ -244,6 +264,35 @@
 
     counters.forEach(counter => counterObserver.observe(counter));
     // -----------------------
+
+    // --- Populate Hero Grid ---
+    function initHeroGrid() {
+        const gridItems = document.querySelectorAll('.mock-img');
+        // Wait until mainMedia is available (it's defined later, so we run this after load)
+        setTimeout(() => {
+            // Pick random images from mainMedia (defined at bottom)
+            // If mainMedia isn't ready, use a fallback list or wait
+            // Better to move this call to the bottom or use the array directly if it was hoisted (variables aren't).
+            // But variables declared with const are not hoisted.
+            // We can search mainMedia in the array list.
+
+            // To be safe, we'll manually list a few proxied images here for the hero header
+            const heroImages = [
+                "Proxy/Highlights/Main/IMG_2588_proxy.jpg",
+                "Proxy/Highlights/Main/IMG_7691_proxy.jpg",
+                "Proxy/Highlights/Main/_A7_2665_proxy.JPG"
+            ];
+
+            gridItems.forEach((item, index) => {
+                if (heroImages[index]) {
+                    item.style.backgroundImage = `url('${heroImages[index]}')`;
+                    item.style.backgroundSize = 'cover';
+                    item.style.backgroundPosition = 'center';
+                }
+            });
+        }, 100);
+    }
+    initHeroGrid();
 
     // --- Back to Top Button ---
     const backToTopBtn = document.createElement('button');
