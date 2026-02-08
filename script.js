@@ -1962,11 +1962,11 @@
                 mediaEl = document.createElement('video');
                 mediaEl.src = src;
                 mediaEl.muted = true;
-                mediaEl.autoplay = true;
+                // mediaEl.autoplay = true; // DISABLED to prevent premature playback
                 mediaEl.loop = true;
                 mediaEl.playsInline = true;
                 // Preload metadata to reduce jank
-                mediaEl.preload = 'metadata';
+                mediaEl.preload = 'auto';
             } else {
                 mediaEl = document.createElement('img');
                 mediaEl.src = src;
