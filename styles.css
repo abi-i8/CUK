@@ -27,6 +27,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
 }
 
 body {
@@ -387,6 +388,9 @@ body {
     z-index: 2;
     /* Label above indicator */
     white-space: nowrap;
+    outline: none; /* Remove focus ring */
+    -webkit-user-select: none; /* Prevent text selection on tap */
+    user-select: none;
 }
 
 .nav-tab::before {
@@ -852,10 +856,10 @@ body {
     color: rgba(255, 255, 255, 0.7);
     /* Same as close button */
     border: none;
-    outline: none;
-    /* No focus outline */
+    outline: none !important;
     appearance: none;
-    /* No OS styling */
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -1170,7 +1174,8 @@ body {
 #security-password {
     background: transparent;
     border: none;
-    outline: none;
+    outline: none !important;
+    box-shadow: none !important; /* Remove any browser default focus glow */
     color: white;
     font-size: 1rem;
     letter-spacing: 4px;
