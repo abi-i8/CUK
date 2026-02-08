@@ -21,7 +21,7 @@
 
     function updateCursorPosition(x, y) {
         if (cursorGlow) {
-            cursorGlow.style.display = 'block';
+            cursorGlow.classList.add('active');
             cursorGlow.style.left = x + 'px';
             cursorGlow.style.top = y + 'px';
         }
@@ -29,7 +29,7 @@
 
     function hideCursor() {
         if (cursorGlow) {
-            cursorGlow.style.display = 'none';
+            cursorGlow.classList.remove('active');
         }
     }
 
