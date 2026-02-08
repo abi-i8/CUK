@@ -2048,25 +2048,18 @@
         const targetZ = 0;
 
         function animateEntry() {
-            // Speed of entry - Variable step for smoother ease-out feel
-            const diff = targetZ - currentZ;
+            // Speed of entry
+            currentZ -= 100; // Fly in speed
 
-            // Simple ease-out: move 10% of remaining distance
-            // But ensure minimum step to avoid infinite tail
-            let step = diff * 0.1;
-            if (Math.abs(step) < 50) step = (diff > 0) ? 50 : -50;
-
-            currentZ += step;
-
-            // Snap to target if close
-            if (Math.abs(currentZ - targetZ) < 60) currentZ = targetZ;
-
-            if (currentZ != targetZ) {
+            if (currentZ > targetZ) {
                 if (window.updateTunnel) window.updateTunnel(currentZ);
                 requestAnimationFrame(animateEntry);
             } else {
                 currentZ = targetZ;
                 if (window.updateTunnel) window.updateTunnel(currentZ);
+                // Hand over to normal interaction or auto-scroll
+                // Optional: Start slow auto-scroll after entry
+                // autoScrollZ = -2; 
             }
         }
         requestAnimationFrame(animateEntry);
