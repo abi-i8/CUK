@@ -2004,7 +2004,7 @@
 
         secretMedia.forEach((src, index) => {
             const item = document.createElement('div');
-            item.className = 'tunnel-item';
+            item.className = 'tunnel-item media-loading'; // Start with loading state
 
             // Same 3D positioning as Main Tunnel
             const z = (index * -800) - 800;
@@ -2025,20 +2025,46 @@
                 mediaEl = document.createElement('video');
                 mediaEl.src = src;
                 mediaEl.muted = true;
-                // mediaEl.autoplay = true; // DISABLED to prevent premature playback
                 mediaEl.loop = true;
                 mediaEl.playsInline = true;
-                // Preload metadata to reduce jank
                 mediaEl.preload = 'auto';
+
+                // Size correction for videos
+                const resizeVideoToFill = () => {
+                    const videoRatio = mediaEl.videoWidth / mediaEl.videoHeight;
+                    const frameRatio = 350 / 500;
+                    if (videoRatio > frameRatio) {
+                        mediaEl.style.width = 'auto';
+                        mediaEl.style.height = '100%';
+                    } else {
+                        mediaEl.style.width = '100%';
+                        mediaEl.style.height = 'auto';
+                    }
+                };
+
+                mediaEl.onloadeddata = () => {
+                    resizeVideoToFill();
+                    mediaEl.classList.add('loaded');
+                    item.classList.remove('media-loading');
+                };
+
+                mediaEl.oncanplaythrough = () => {
+                    if (isSecretMode && !isFlyInActive) mediaEl.play();
+                };
             } else {
                 mediaEl = document.createElement('img');
                 mediaEl.src = src;
-                mediaEl.loading = 'eager'; // Load immediately since we are about to show it
+                mediaEl.loading = 'eager';
+                mediaEl.onload = () => {
+                    mediaEl.classList.add('loaded');
+                    item.classList.remove('media-loading');
+                };
             }
 
             // Error Handling
             mediaEl.onerror = () => {
                 console.error('Secret Tunnel Media Failed:', src);
+                item.classList.remove('media-loading');
                 item.innerHTML = '<div style="color:red;font-size:10px;">Media Error<br>' + src.split('/').pop() + '</div>';
                 item.style.border = '1px solid red';
             };
