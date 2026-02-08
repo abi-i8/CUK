@@ -25,10 +25,7 @@
     // Touch Support for Particles
     // ...
 
-    // Initialize Driving Game if available
-    if (window.CarGame) {
-        new CarGame();
-    }
+
     window.addEventListener('touchmove', (e) => {
         if (e.touches.length > 0) {
             mouse.x = e.touches[0].clientX;
