@@ -25,9 +25,9 @@
     // Touch Support for Particles
     // ...
 
-    // Initialize Game if available
-    if (window.MotionGame) {
-        new MotionGame();
+    // Initialize Explore Sphere if available
+    if (window.MemorySphere) {
+        new MemorySphere();
     }
     window.addEventListener('touchmove', (e) => {
         if (e.touches.length > 0) {
