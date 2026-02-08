@@ -101,25 +101,37 @@
         }
     });
 
+    // --- Particle System Optimization ---
+    // Reduce particle count significantly for mobile/low-end devices
     function initParticles() {
         particlesArray = [];
-        const numberOfParticles = (canvas.width * canvas.height) / 9000; // Density
+        // Lower density: Divide by 15000 instead of 9000
+        const densityDivisor = (window.innerWidth < 768) ? 20000 : 12000;
+        const numberOfParticles = (canvas.width * canvas.height) / densityDivisor;
         for (let i = 0; i < numberOfParticles; i++) {
             particlesArray.push(new Particle());
         }
     }
 
     // Check if particles are close enough to draw line
+    // OPTIMIZED: Only check nearest neighbors or skip frames? 
+    // Frame skipping is easier.
     function connect() {
         let opacityValue = 1;
+        // Optimization: Reduce nested loop checks by limiting distance check quickly
+        const maxDist = (canvas.width / 7) * (canvas.height / 7);
+
         for (let a = 0; a < particlesArray.length; a++) {
             for (let b = a; b < particlesArray.length; b++) {
+                // Quick bounding box check could go here, but JS math is fast enough if count is low.
+                // Limiting count is the best optimization.
+
                 let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
                     + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
 
-                if (distance < (canvas.width / 7) * (canvas.height / 7) && distance < 9000) { // Max distance squared (~95px)
+                if (distance < maxDist && distance < 9000) {
                     opacityValue = 1 - (distance / 10000);
-                    ctx.strokeStyle = 'rgba(255, 255, 255,' + (opacityValue * 0.2) + ')'; // Faint white lines
+                    ctx.strokeStyle = 'rgba(255, 255, 255,' + (opacityValue * 0.2) + ')';
                     ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -130,13 +142,24 @@
         }
     }
 
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        for (let i = 0; i < particlesArray.length; i++) {
-            particlesArray[i].update();
-            particlesArray[i].draw();
+    // Frame Throttling Variables
+    let lastTime = 0;
+    const fpsInterval = 1000 / 40; // Limit to 40 FPS for background effects (saves GPU/CPU)
+
+    function animateParticles(timestamp) {
+        if (!lastTime) lastTime = timestamp;
+        const elapsed = timestamp - lastTime;
+
+        if (elapsed > fpsInterval) {
+            lastTime = timestamp - (elapsed % fpsInterval);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            connect();
         }
-        connect();
         requestAnimationFrame(animateParticles);
     }
 
