@@ -16,6 +16,7 @@
 
 
     <script src="script.js" defer></script>
+    <script src="game.js" defer></script>
 </head>
 
 <body>
@@ -75,9 +76,21 @@
     <main class="content-container">
         <!-- Explore Section (Active) -->
         <div id="section-3" class="content-section active">
-            <div class="placeholder-content">
-                <h2>Explore</h2>
-                <p>More content loading...</p>
+            <div class="webcam-game-container">
+                <div class="game-overlay" id="game-start-overlay">
+                    <h2>Face Navigation</h2>
+                    <p>Use your head movement to control the cursor.</p>
+                    <button id="start-webcam-game" class="nav-tab active">Enable Camera & Play</button>
+                    <p class="small-note">Camera data is processed locally and never sent to a server.</p>
+                </div>
+
+                <div class="game-ui hidden" id="game-ui-layer">
+                    <div class="score-board">Score: <span id="game-score">0</span></div>
+                    <div class="lives-board">Lives: <span id="game-lives">3</span></div>
+                </div>
+
+                <video id="webcam-feed" autoplay playsinline muted class="hidden"></video>
+                <canvas id="game-canvas"></canvas>
             </div>
         </div>
 
