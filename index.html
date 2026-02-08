@@ -16,7 +16,7 @@
 
 
     <script src="script.js" defer></script>
-    <script src="explore_sphere.js" defer></script>
+    <script src="car_game.js" defer></script>
 </head>
 
 <body>
@@ -76,14 +76,26 @@
     <main class="content-container">
         <!-- Explore Section (Active) -->
         <div id="section-3" class="content-section active">
-            <div class="explore-wrapper">
-                <div class="sphere-container">
-                    <canvas id="memory-sphere-canvas"></canvas>
-                    <div class="sphere-overlay">
-                        <h3>Memory Matrix</h3>
-                        <p>Drag to rotate. Click nodes to explore.</p>
+            <div class="driving-game-container">
+                <div class="game-overlay" id="drive-start-overlay">
+                    <h2>Turbo Vision</h2>
+                    <p>Move your hands/head left or right to steer.</p>
+                    <button id="start-driving-game" class="nav-tab active">Enable Camera & Drive</button>
+                    <p class="small-note">No data leaves your device. Local motion tracking only.</p>
+                </div>
+
+                <div class="game-hud hidden" id="drive-hud">
+                    <div class="speedometer">Speed: <span id="drive-speed">0</span> km/h</div>
+                    <div class="distance-board">Dist: <span id="drive-dist">0</span>m</div>
+                </div>
+
+                <div class="steering-guide hidden" id="steering-guide">
+                    <div class="wheel-icon"><i class="fas fa-steering-wheel"></i></div>
+                    <div class="camera-preview-mini"><video id="drive-webcam-feed" autoplay playsinline muted></video>
                     </div>
                 </div>
+
+                <canvas id="driving-canvas"></canvas>
             </div>
         </div>
 
