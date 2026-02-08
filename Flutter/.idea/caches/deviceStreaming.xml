@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DeviceStreaming">
+    <option name="defaultDeviceApplied" value="true" />
     <option name="deviceSelectionList">
       <list>
         <PersistentDeviceSelectionData>
@@ -448,6 +449,7 @@
           <option name="screenDensity" value="390" />
           <option name="screenX" value="2076" />
           <option name="screenY" value="2152" />
+          <option name="selected" value="true" />
           <option name="tags">
             <list>
               <option value="dda-default" />
@@ -466,6 +468,7 @@
           <option name="screenDensity" value="390" />
           <option name="screenX" value="2076" />
           <option name="screenY" value="2152" />
+          <option name="selected" value="true" />
           <option name="tags">
             <list>
               <option value="dda-default" />
@@ -544,6 +547,7 @@
           <option name="screenDensity" value="480" />
           <option name="screenX" value="1080" />
           <option name="screenY" value="2340" />
+          <option name="selected" value="true" />
           <option name="tags">
             <list>
               <option value="dda-default" />
@@ -562,6 +566,7 @@
           <option name="screenDensity" value="480" />
           <option name="screenX" value="1080" />
           <option name="screenY" value="2340" />
+          <option name="selected" value="true" />
           <option name="tags">
             <list>
               <option value="dda-default" />
@@ -1286,6 +1291,7 @@
           <option name="screenDensity" value="420" />
           <option name="screenX" value="1080" />
           <option name="screenY" value="2424" />
+          <option name="selected" value="true" />
           <option name="tags">
             <list>
               <option value="dda-default" />
@@ -1304,6 +1310,7 @@
           <option name="screenDensity" value="420" />
           <option name="screenX" value="1080" />
           <option name="screenY" value="2424" />
+          <option name="selected" value="true" />
           <option name="tags">
             <list>
               <option value="dda-default" />
@@ -1322,6 +1329,7 @@
           <option name="screenDensity" value="420" />
           <option name="screenX" value="1080" />
           <option name="screenY" value="2424" />
+          <option name="selected" value="true" />
           <option name="tags">
             <list>
               <option value="dda-default" />

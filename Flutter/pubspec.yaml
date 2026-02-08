@@ -1,0 +1,25 @@
+name: mb_yeah_portfolio
+description: A premium glassmorphism portfolio app.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  google_fonts: ^6.1.0
+  glass_kit: ^2.1.0 # For easy glassmorphism
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  # Add fonts or assets if needed here
