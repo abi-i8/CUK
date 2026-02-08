@@ -1524,7 +1524,7 @@ body {
     50% {
         opacity: 1;
         transform: scale(1.2);
-        box-shadow: 0 0 15px #ffd700;
+        box-shadow: 0 0 15px #00ff88;
     }
 
     100% {
@@ -1574,17 +1574,17 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    background: rgba(255, 215, 0, 0.05);
+    background: rgba(0, 255, 136, 0.05);
     padding: 10px 20px;
     border-radius: 50px;
-    border: 1px solid rgba(255, 215, 0, 0.2);
+    border: 1px solid rgba(0, 255, 136, 0.2);
     margin-bottom: 2rem;
 }
 
 .status-dot {
     width: 10px;
     height: 10px;
-    background: #ffd700;
+    background: #00ff88;
     border-radius: 50%;
     animation: statusPulse 2s infinite ease-in-out;
 }
@@ -1593,7 +1593,7 @@ body {
     font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 3px;
-    color: #ffd700;
+    color: #00ff88;
     text-transform: uppercase;
 }
 
