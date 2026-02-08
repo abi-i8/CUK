@@ -617,7 +617,7 @@
                 const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov');
                 const visibilityClass = index === 0 ? 'visible' : '';
                 if (isVideo) {
-                    return `<video src="${src}" class="gallery-item ${visibilityClass}" muted loop playsinline></video>`;
+                    return `<video src="${src}" class="gallery-item ${visibilityClass}" muted loop playsinline autoplay></video>`;
                 } else {
                     return `<img src="${src}" class="gallery-item ${visibilityClass}" alt="${memory.title}" loading="lazy">`;
                 }
@@ -761,6 +761,7 @@
                     el.controls = true;
                     el.muted = true;
                     el.playsInline = true;
+                    el.autoplay = true; // Added autoplay for modal too
                 } else {
                     el = document.createElement('img');
                     el.src = src;
