@@ -36,13 +36,12 @@
     window.addEventListener('mousemove', (event) => {
         mouse.x = event.clientX;
         mouse.y = event.clientY;
-        updateCursorPosition(event.clientX, event.clientY);
+        // Global glow update removed - now handled by security logic
     });
 
     window.addEventListener('mouseleave', () => {
         mouse.x = null;
         mouse.y = null;
-        hideCursor();
     });
 
     window.addEventListener('mousedown', () => {
@@ -61,7 +60,6 @@
         if (e.touches.length > 0) {
             mouse.x = e.touches[0].clientX;
             mouse.y = e.touches[0].clientY;
-            updateCursorPosition(mouse.x, mouse.y);
         }
     }, { passive: true });
 
@@ -69,7 +67,6 @@
         if (e.touches.length > 0) {
             mouse.x = e.touches[0].clientX;
             mouse.y = e.touches[0].clientY;
-            updateCursorPosition(mouse.x, mouse.y);
         }
     }, { passive: true });
 
@@ -1437,25 +1434,55 @@
         isZooming: false,  // Password-triggered zoom animation
         isCentering: false, // Logo moving to center
         centeringProgress: 0,
-        passwordAccepted: false // Lock to prevent security screen from reappearing
+        passwordAccepted: false, // Lock to prevent security screen from reappearing
+        mouse: { x: null, y: null, screenX: null, screenY: null }
     };
 
-    // Mouse Tracking for Repulsion (Consolidated Glow logic above)
-    window.addEventListener('mousemove', (e) => {
+    // Mouse & Touch Tracking for Repulsion
+    function handleSecurityPointer(clientX, clientY) {
         const logoCanvas = document.getElementById('logo-particles');
         if (logoCanvas) {
             const rect = logoCanvas.getBoundingClientRect();
-            securityState.mouse.x = e.clientX - rect.left;
-            securityState.mouse.y = e.clientY - rect.top;
+            securityState.mouse.x = clientX - rect.left;
+            securityState.mouse.y = clientY - rect.top;
         } else {
-            securityState.mouse.x = e.clientX;
-            securityState.mouse.y = e.clientY;
+            securityState.mouse.x = clientX;
+            securityState.mouse.y = clientY;
         }
+
+        // Always record screen coords for the cursor element
+        securityState.mouse.screenX = clientX;
+        securityState.mouse.screenY = clientY;
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        handleSecurityPointer(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            handleSecurityPointer(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            handleSecurityPointer(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+        securityState.mouse.x = null;
+        securityState.mouse.y = null;
+        securityState.mouse.screenX = null;
+        securityState.mouse.screenY = null;
     });
 
     window.addEventListener('mouseout', () => {
         securityState.mouse.x = null;
         securityState.mouse.y = null;
+        securityState.mouse.screenX = null;
+        securityState.mouse.screenY = null;
     });
 
     function showSecurityTrigger() {
@@ -1822,6 +1849,10 @@
         const glow = document.getElementById('security-cursor-glow');
         if (glow) {
             glow.classList.toggle('active', mouseIsNearField && canInteract);
+            if (securityState.mouse.screenX !== null) {
+                glow.style.left = securityState.mouse.screenX + 'px';
+                glow.style.top = securityState.mouse.screenY + 'px';
+            }
         }
 
         const pwd = document.getElementById('password-container');
@@ -2149,6 +2180,9 @@
             ctx.clearRect(0, 0, logoCanvas.width, logoCanvas.height);
             logoCanvas.style.display = 'block';
         }
+
+        const glow = document.getElementById('security-cursor-glow');
+        if (glow) glow.classList.remove('active');
 
         // Force initial render of main tunnel
         if (window.updateTunnel) window.updateTunnel(0);
