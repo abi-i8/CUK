@@ -34,15 +34,23 @@
     }
 
     window.addEventListener('mousemove', (event) => {
-        mouse.x = event.x;
-        mouse.y = event.y;
-        updateCursorPosition(event.x, event.y);
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+        updateCursorPosition(event.clientX, event.clientY);
     });
 
     window.addEventListener('mouseleave', () => {
         mouse.x = null;
         mouse.y = null;
         hideCursor();
+    });
+
+    window.addEventListener('mousedown', () => {
+        if (cursorGlow) cursorGlow.style.transform = 'translate(-50%, -50%) scale(0.8)';
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (cursorGlow) cursorGlow.style.transform = 'translate(-50%, -50%) scale(1)';
     });
 
     // Touch Support for Particles
@@ -1432,22 +1440,16 @@
         passwordAccepted: false // Lock to prevent security screen from reappearing
     };
 
-    // Mouse Tracking for Repulsion & Glow
+    // Mouse Tracking for Repulsion (Consolidated Glow logic above)
     window.addEventListener('mousemove', (e) => {
-        const canvas = document.getElementById('logo-particles');
-        if (canvas) {
-            const rect = canvas.getBoundingClientRect();
+        const logoCanvas = document.getElementById('logo-particles');
+        if (logoCanvas) {
+            const rect = logoCanvas.getBoundingClientRect();
             securityState.mouse.x = e.clientX - rect.left;
             securityState.mouse.y = e.clientY - rect.top;
         } else {
             securityState.mouse.x = e.clientX;
             securityState.mouse.y = e.clientY;
-        }
-
-        const glow = document.getElementById('security-cursor-glow');
-        if (glow) {
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
         }
     });
 
