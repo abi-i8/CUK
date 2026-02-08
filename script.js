@@ -1053,6 +1053,7 @@
     let autoScrollZ = 0;
     let lastInterventionTime = 0;
     let isSecretMode = false; // Track if in Secret Tunnel
+    let isFlyInActive = false; // Lock scroll during entry animation
 
     // Relative Progress Tracking
     let forwardScrollStart = 0; // Z position when user started scrolling forward
@@ -1223,6 +1224,9 @@
 
         // --- UNIFIED SCROLL HANDLER (Mouse, Trackpad, Touch) ---
         function handleScrollInput(deltaY) {
+            // LOCK: Prevent any scroll during fly-in animation for natural flow
+            if (isFlyInActive) return true;
+
             // Check if we are in the active section
             const tunnelWrapper = document.getElementById('main-tunnel-wrapper');
             if (!tunnelWrapper || !tunnelWrapper.closest('.content-section').classList.contains('active')) return false;
@@ -2087,30 +2091,27 @@
         }
 
         // --- ANIMATED ENTRY ---
-        // Start "deep" in the tunnel (negative Z is forward, positive is backward in our logic)
-        // Actually, our logic: currentZ decreases to move forward.
-        // So start at a HIGHER Z (e.g., 5000) and move to 0?
-        // Wait, standard view is at 0. Items are at -800, -1600...
-        // To fly IN, we should start at a positive Z (camera behind items) or just animate standard autoScroll.
-
-        // Let's set a starting "fly-in" state
-        currentZ = 5000; // Start far back
+        // Start "deep" in the tunnel - slightly closer for "ending soon" feel
+        currentZ = 4000;
         const targetZ = 0;
+        isFlyInActive = true;
 
         function animateEntry() {
-            // Eased Entry (Exponential Decay)
+            // Natural Physics: Smoother Ease-Out with a higher coefficient
             const dist = targetZ - currentZ;
 
-            // Move 5% of the distance per frame (Smooth Ease-Out)
-            currentZ += dist * 0.05;
+            // 0.12 provides a fast start that settles quickly but smoothly
+            const damping = 0.12;
+            currentZ += dist * damping;
 
-            // Stop threshold
-            if (Math.abs(dist) > 5) {
+            // Stop threshold (tighter for precise landing)
+            if (Math.abs(dist) > 1) {
                 if (window.updateTunnel) window.updateTunnel(currentZ);
                 requestAnimationFrame(animateEntry);
             } else {
                 currentZ = targetZ;
                 if (window.updateTunnel) window.updateTunnel(currentZ);
+                isFlyInActive = false; // Animation finished, unlock scroll
             }
         }
         requestAnimationFrame(animateEntry);
@@ -2127,6 +2128,7 @@
         forwardScrollStart = 0;
         forwardScrollDistance = 0;
         isScrollingForward = false;
+        isFlyInActive = false;
 
         // Reset Security State
         securityState.passwordAccepted = false;
