@@ -27,7 +27,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
+    -webkit-tap-highlight-color: transparent;
+    /* Remove mobile tap highlight */
 }
 
 body {
@@ -308,8 +309,9 @@ body {
     letter-spacing: 1px;
     box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
     align-self: flex-end;
-    /* Push to right */
     margin-top: 1rem;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .insta-link:hover {
@@ -388,8 +390,10 @@ body {
     z-index: 2;
     /* Label above indicator */
     white-space: nowrap;
-    outline: none; /* Remove focus ring */
-    -webkit-user-select: none; /* Prevent text selection on tap */
+    outline: none;
+    /* Remove focus ring */
+    -webkit-user-select: none;
+    /* Prevent text selection on tap */
     user-select: none;
 }
 
@@ -739,7 +743,8 @@ body {
     border-radius: 50%;
     transition: all 0.3s;
     padding-bottom: 4px;
-    /* Optical adjustment for &times; often sitting high */
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .close-modal:hover {
@@ -1175,7 +1180,8 @@ body {
     background: transparent;
     border: none;
     outline: none !important;
-    box-shadow: none !important; /* Remove any browser default focus glow */
+    box-shadow: none !important;
+    /* Remove any browser default focus glow */
     color: white;
     font-size: 1rem;
     letter-spacing: 4px;
