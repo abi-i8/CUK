@@ -285,9 +285,19 @@
 
             gridItems.forEach((item, index) => {
                 if (heroImages[index]) {
-                    item.style.backgroundImage = `url('${heroImages[index]}')`;
-                    item.style.backgroundSize = 'cover';
-                    item.style.backgroundPosition = 'center';
+                    // Preload image to check for 404
+                    const img = new Image();
+                    img.onload = () => {
+                        item.style.backgroundImage = `url('${heroImages[index]}')`;
+                        item.style.backgroundSize = 'cover';
+                        item.style.backgroundPosition = 'center';
+                    };
+                    img.onerror = () => {
+                        console.error('Hero Grid Image Failed:', heroImages[index]);
+                        item.style.background = '#333';
+                        item.innerHTML = '<div style="color:white;font-size:10px;text-align:center;padding-top:40%">Image<br>Error</div>';
+                    };
+                    img.src = heroImages[index];
                 }
             });
         }, 100);
@@ -1072,6 +1082,11 @@
                 mediaEl = document.createElement('img');
                 mediaEl.src = src;
                 mediaEl.loading = 'lazy';
+                mediaEl.onerror = () => {
+                    console.error('Tunnel Media Failed:', src);
+                    item.innerHTML = '<div style="color:white;font-size:12px;text-align:center;">Media Not Found<br>' + src.split('/').pop() + '</div>';
+                    item.style.border = '1px solid red';
+                };
             }
 
             item.appendChild(mediaEl);
