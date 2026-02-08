@@ -915,9 +915,9 @@
             "Proxy/Highlights/Main/IMG_7697_proxy.jpg",
             "Proxy/Highlights/Main/IMG_7717_proxy.jpg",
             "Proxy/Highlights/Main/IMG_7874_proxy.jpg",
-            "Proxy/Highlights/Main/_A7_2665_proxy.jpg",
-            "Proxy/Highlights/Main/_A7_2686_proxy.jpg",
-            "Proxy/Highlights/Main/_A7_2688_proxy.jpg",
+            "Proxy/Highlights/Main/_A7_2665_proxy.JPG",
+            "Proxy/Highlights/Main/_A7_2686_proxy.JPG",
+            "Proxy/Highlights/Main/_A7_2688_proxy.JPG",
             "Proxy/Highlights/Main/_A7_5281_proxy.jpg",
             "Proxy/Highlights/Main/_MG_0821_proxy.jpg"
         ]
