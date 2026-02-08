@@ -1090,11 +1090,10 @@
 
         mainMedia.forEach((src, index) => {
             const item = document.createElement('div');
-            item.className = 'tunnel-item';
+            item.className = 'tunnel-item media-loading';
 
-            // Position in 3D - Added starting offset of -800
+            // Position in 3D
             const z = (index * -800) - 800;
-            // Spread out randomly in X/Y to form a hollow tunnel
             const angle = Math.random() * Math.PI * 2;
             const radius = 250 + Math.random() * 200;
             const x = Math.cos(angle) * radius;
@@ -1115,12 +1114,37 @@
                 mediaEl.autoplay = true;
                 mediaEl.loop = true;
                 mediaEl.playsInline = true;
+                mediaEl.preload = 'auto';
+
+                const resizeVideoToFill = () => {
+                    const videoRatio = mediaEl.videoWidth / mediaEl.videoHeight;
+                    const frameRatio = 350 / 500;
+                    if (videoRatio > frameRatio) {
+                        mediaEl.style.width = 'auto';
+                        mediaEl.style.height = '100%';
+                    } else {
+                        mediaEl.style.width = '100%';
+                        mediaEl.style.height = 'auto';
+                    }
+                };
+
+                mediaEl.onloadeddata = () => {
+                    resizeVideoToFill();
+                    mediaEl.classList.add('loaded');
+                    item.classList.remove('media-loading');
+                };
             } else {
                 mediaEl = document.createElement('img');
                 mediaEl.src = src;
-                mediaEl.loading = 'lazy';
+                mediaEl.loading = 'eager';
+                mediaEl.onload = () => {
+                    mediaEl.classList.add('loaded');
+                    item.classList.remove('media-loading');
+                };
+
                 mediaEl.onerror = () => {
                     console.error('Tunnel Media Failed:', src);
+                    item.classList.remove('media-loading');
                     item.innerHTML = '<div style="color:white;font-size:12px;text-align:center;">Media Not Found<br>' + src.split('/').pop() + '</div>';
                     item.style.border = '1px solid red';
                 };
@@ -1408,6 +1432,7 @@
 
     renderMemories();
     initMainTunnel();
+    buildSecretTunnelDOM();
     initInstaGrid();
 
     // --- SCROLL-DRIVEN SECURITY LOGIC ---
