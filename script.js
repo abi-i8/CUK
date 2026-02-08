@@ -2036,18 +2036,19 @@
         const targetZ = 0;
 
         function animateEntry() {
-            // Speed of entry
-            currentZ -= 100; // Fly in speed
+            // Eased Entry (Exponential Decay)
+            const dist = targetZ - currentZ;
 
-            if (currentZ > targetZ) {
+            // Move 5% of the distance per frame (Smooth Ease-Out)
+            currentZ += dist * 0.05;
+
+            // Stop threshold
+            if (Math.abs(dist) > 5) {
                 if (window.updateTunnel) window.updateTunnel(currentZ);
                 requestAnimationFrame(animateEntry);
             } else {
                 currentZ = targetZ;
                 if (window.updateTunnel) window.updateTunnel(currentZ);
-                // Hand over to normal interaction or auto-scroll
-                // Optional: Start slow auto-scroll after entry
-                // autoScrollZ = -2; 
             }
         }
         requestAnimationFrame(animateEntry);
