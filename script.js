@@ -433,7 +433,7 @@
                     "6.jpg": "Proxy/Events/8. Destination Visit II - NOV 2024/6_proxy.jpg",
                     "7.JPG": "Proxy/Events/8. Destination Visit II - NOV 2024/7_proxy.JPG",
                     "8.JPG": "Proxy/Events/8. Destination Visit II - NOV 2024/8_proxy.JPG",
-                    "9.jpg": "Proxy/Events/8. Destination Visit II - NOV 2024/9._proxy.jpg",
+                    "9.jpg": "Proxy/Events/8. Destination Visit II - NOV 2024/9_proxy.jpg",
                     "10.jpg": "Proxy/Events/8. Destination Visit II - NOV 2024/10_proxy.jpg",
                     "11.jpg": "Proxy/Events/8. Destination Visit II - NOV 2024/11_proxy.jpg",
                     "12.jpg": "Proxy/Events/8. Destination Visit II - NOV 2024/12_proxy.jpg",
