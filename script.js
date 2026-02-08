@@ -1903,7 +1903,7 @@
 
                 // NUKE PARTICLES
                 securityState.particles = [];
-            }, 200);
+            }, 1000);
         } else {
             if (glassWrapper) {
                 glassWrapper.classList.add('error');
