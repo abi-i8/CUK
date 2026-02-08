@@ -17,9 +17,32 @@
         radius: 100
     }
 
+    const cursorGlow = document.getElementById('security-cursor-glow');
+
+    function updateCursorPosition(x, y) {
+        if (cursorGlow) {
+            cursorGlow.style.display = 'block';
+            cursorGlow.style.left = x + 'px';
+            cursorGlow.style.top = y + 'px';
+        }
+    }
+
+    function hideCursor() {
+        if (cursorGlow) {
+            cursorGlow.style.display = 'none';
+        }
+    }
+
     window.addEventListener('mousemove', (event) => {
         mouse.x = event.x;
         mouse.y = event.y;
+        updateCursorPosition(event.x, event.y);
+    });
+
+    window.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+        hideCursor();
     });
 
     // Touch Support for Particles
@@ -30,6 +53,7 @@
         if (e.touches.length > 0) {
             mouse.x = e.touches[0].clientX;
             mouse.y = e.touches[0].clientY;
+            updateCursorPosition(mouse.x, mouse.y);
         }
     }, { passive: true });
 
@@ -37,12 +61,14 @@
         if (e.touches.length > 0) {
             mouse.x = e.touches[0].clientX;
             mouse.y = e.touches[0].clientY;
+            updateCursorPosition(mouse.x, mouse.y);
         }
     }, { passive: true });
 
     window.addEventListener('touchend', () => {
         mouse.x = null;
         mouse.y = null;
+        hideCursor();
     });
 
     class Particle {
