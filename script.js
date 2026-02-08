@@ -1863,6 +1863,9 @@
             }
 
             // Step 2: Trigger Shatter/Dispersion
+            // PRELOAD SECRET TUNNEL NOW (while animation plays)
+            if (buildSecretTunnelDOM) buildSecretTunnelDOM();
+
             securityState.isShattering = true;
             securityState.shatterStartTime = Date.now();
             securityState.passwordAccepted = true; // LOCK: Never show security screen again
@@ -1922,6 +1925,65 @@
 
 
 
+    // Optimized Secret Tunnel Launch
+    function buildSecretTunnelDOM() {
+        const sTunnel = document.getElementById('secret-tunnel');
+        if (!sTunnel) return;
+
+        // Check if already built to avoid double-build
+        if (sTunnel.children.length > 0) return;
+
+        // Shuffle right before build
+        shuffleArray(secretMedia);
+
+        sTunnel.innerHTML = ''; // Ensure clear
+
+        secretMedia.forEach((src, index) => {
+            const item = document.createElement('div');
+            item.className = 'tunnel-item';
+
+            // Same 3D positioning as Main Tunnel
+            const z = (index * -800) - 800;
+            const angle = Math.random() * Math.PI * 2;
+            const radius = 250 + Math.random() * 200;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+
+            item.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, ${z}px)`;
+            item.setAttribute('data-z', z);
+            item.setAttribute('data-x', x);
+            item.setAttribute('data-y', y);
+
+            const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov');
+            let mediaEl;
+
+            if (isVideo) {
+                mediaEl = document.createElement('video');
+                mediaEl.src = src;
+                mediaEl.muted = true;
+                mediaEl.autoplay = true;
+                mediaEl.loop = true;
+                mediaEl.playsInline = true;
+                // Preload metadata to reduce jank
+                mediaEl.preload = 'metadata';
+            } else {
+                mediaEl = document.createElement('img');
+                mediaEl.src = src;
+                mediaEl.loading = 'eager'; // Load immediately since we are about to show it
+            }
+
+            // Error Handling
+            mediaEl.onerror = () => {
+                console.error('Secret Tunnel Media Failed:', src);
+                item.innerHTML = '<div style="color:red;font-size:10px;">Media Error<br>' + src.split('/').pop() + '</div>';
+                item.style.border = '1px solid red';
+            };
+
+            item.appendChild(mediaEl);
+            sTunnel.appendChild(item);
+        });
+    }
+
     function switchToSecretTunnel() {
         isSecretMode = true;
         isInterventionMode = false;
@@ -1933,9 +1995,6 @@
         forwardScrollDistance = 0;
         isScrollingForward = false;
 
-        // Shuffle secret media for fresh experience
-        shuffleArray(secretMedia);
-
         const sTunnel = document.getElementById('secret-tunnel');
         const hTunnel = document.getElementById('main-tunnel');
 
@@ -1945,47 +2004,12 @@
             hTunnel.style.opacity = '0';
         }
 
-        // Show and populate secret tunnel
+        // Show secret tunnel (which was pre-built)
         if (sTunnel) {
             sTunnel.classList.remove('hidden');
+            // Force reflow
+            void sTunnel.offsetWidth;
             sTunnel.style.opacity = '1';
-            sTunnel.innerHTML = '';
-
-            secretMedia.forEach((src, index) => {
-                const item = document.createElement('div');
-                item.className = 'tunnel-item';
-
-                // Same 3D positioning as Main Tunnel
-                const z = (index * -800) - 800;
-                const angle = Math.random() * Math.PI * 2;
-                const radius = 250 + Math.random() * 200;
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
-
-                item.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, ${z}px)`;
-                item.setAttribute('data-z', z);
-                item.setAttribute('data-x', x);
-                item.setAttribute('data-y', y);
-
-                const isVideo = src.toLowerCase().endsWith('.mp4') || src.toLowerCase().endsWith('.mov');
-                let mediaEl;
-
-                if (isVideo) {
-                    mediaEl = document.createElement('video');
-                    mediaEl.src = src;
-                    mediaEl.muted = true;
-                    mediaEl.autoplay = true;
-                    mediaEl.loop = true;
-                    mediaEl.playsInline = true;
-                } else {
-                    mediaEl = document.createElement('img');
-                    mediaEl.src = src;
-                    mediaEl.loading = 'lazy';
-                }
-
-                item.appendChild(mediaEl);
-                sTunnel.appendChild(item);
-            });
         }
 
         // Update tunnel rendering
