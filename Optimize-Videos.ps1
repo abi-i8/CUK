@@ -1,6 +1,6 @@
 $sourcePaths = @("Events", "Highlights")
 $ffmpegPath = "C:\Users\USER\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build\bin\ffmpeg.exe"
-$rootPath = "C:\Users\USER\Desktop\CUK"
+$rootPath = $PSScriptRoot
 
 if (-not (Test-Path $ffmpegPath)) {
     Write-Warning "FFmpeg binary not found at hardcoded path!"

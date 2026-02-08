@@ -3,7 +3,7 @@ add-type -assemblyname System.Drawing
 $sourcePaths = @("Events", "Highlights")
 $maxWidth = 800
 $quality = 60 
-$rootPath = "C:\Users\USER\Desktop\CUK"
+$rootPath = $PSScriptRoot
 
 foreach ($path in $sourcePaths) {
     if (-not (Test-Path $path)) { 
